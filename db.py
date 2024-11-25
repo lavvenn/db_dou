@@ -1,52 +1,43 @@
-import sqlite3
 import os
 
-def create_db():
-    if not os.path.exists("DOUTEST.db"):
-        db = sqlite3.connect("DOUTEST.db")
-        cursor = db.cursor()
-        cursor.execute("""
+from models import Child
 
-        CREATE TABLE IF NOT EXISTS cildren (
-            id integer PRIMARY KEY AUTOINCREMENT,
-            name text NOT NULL,
-            surname text NOT NULL,
-            lastname text NOT NULL,
-            age int NOT NULL,
-            gender text NOT NULL,
-            groupa text NOT NULL
-        )
-        """)
-        db.commit()
+import sqlalchemy
 
-def add_child(name: str, surname: str, lastname: str, age: int, gender: str, groupa: str):
-    db = sqlite3.connect("DOUTEST.db")
-    cursor = db.cursor()
-    cursor.execute("""
-    INSERT INTO cildren (name, surname, lastname, age, gender, groupa) VALUES (?, ?, ?, ?, ?, ?)
-    """, (name, surname, lastname, age, gender, groupa))
-    db.commit()
 
-def add_groupa_table(groupa: str):
-    db = sqlite3.connect("DOUTEST.db")
-    cursor = db.cursor()
-    cursor.execute("""
-    INSERT INTO cildren (groupa) VALUES (?)
-    """, (groupa,))
-    db.commit()
+engine = sqlalchemy.create_engine("sqlite:///DOUTEST.db")
+metadata = sqlalchemy.MetaData()
+children_table = sqlalchemy.Table(
+    "children",
+    metadata,
+    sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
+    sqlalchemy.Column("name", sqlalchemy.String),
+    sqlalchemy.Column("surname", sqlalchemy.String),
+    sqlalchemy.Column("lastname", sqlalchemy.String),
+    sqlalchemy.Column("age", sqlalchemy.Integer),
+    sqlalchemy.Column("gender", sqlalchemy.String),
+    sqlalchemy.Column("groupa", sqlalchemy.String),
+)
+
+metadata.create_all(engine)
+
+def add_child(model: Child):
+    with engine.connect() as conn:
+        conn.execute(children_table.insert().values(name=model.name, surname=model.surname, lastname=model.lastname, age=model.age, gender=model.gender, groupa=model.groupa))
+        conn.commit()
+
 
 def print_children():
-    db = sqlite3.connect("DOUTEST.db")
-    cursor = db.cursor()
-    cursor.execute("""
-    SELECT * FROM cildren
-    """)
-    return cursor.fetchall()
+    with engine.connect() as conn:
+        children_list = conn.execute(children_table.select()).fetchall()
+        return [Child(name=row[1], surname=row[2], lastname=row[3], age=row[4], gender=row[5], groupa=row[6]) for row in children_list]
+
+
+
 
         
 
 def main():
-    create_db()
     add_child("john", "doe", "smith", 12, "male", "groupa1")
     add_child("jane", "doe", "smith", 12, "female", "groupa1")
     add_child("jane", "doe", "smith", 12, "female", "groupa2")
