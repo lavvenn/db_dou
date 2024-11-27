@@ -37,7 +37,8 @@ def get_child_by_id(id) -> Child:
         try:
             child = conn.execute(children_table.select().where(children_table.c.id == id)).fetchone()
             return Child(name=child[1], surname=child[2], lastname=child[3], age=child[4], gender=child[5], groupa=child[6])
-        except
+        except:
+            return None
 
 
 
