@@ -1,4 +1,6 @@
+import datetime
 from pydantic import BaseModel
+
 
 
 # def create_db():
@@ -23,6 +25,5 @@ class Child(BaseModel):
     name: str
     surname: str
     lastname: str
-    age: int
-    gender: str
+    birthday: str # d/m/y
     groupa: str

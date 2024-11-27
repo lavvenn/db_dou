@@ -4,7 +4,7 @@ from fastapi import FastAPI
 
 
 
-from  db import add_child, print_children, get_child_by_id
+from  db.requests import add_child, get_all_children, get_child_by_id
 
 from models import Child
 
@@ -12,10 +12,19 @@ app = FastAPI()
 
 @app.get("/")
 def root():
-    return print_children()
+    return get_all_children()
 
 @app.get("/child/{id}")
 def get_child(id: int):
+    """
+    Get child by id.
+
+    Args:
+        id (int): Child id.
+
+    Returns:
+        Child: Child object.
+    """
     return get_child_by_id(id)
 
 @app.get("/child_test")
@@ -25,6 +34,15 @@ def child_test():
 
 @app.post("/add_child")
 def post_add_child(model: Child):
+    """
+    Add a new child to the database.
+
+    Args:
+        model (Child): Child object with the new child's information.
+
+    Returns:
+        str: Success message.
+    """
     add_child(model)
     return "child was added"
 

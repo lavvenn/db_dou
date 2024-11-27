@@ -1,17 +1,17 @@
-from sqlalchemy import Table, Column, Integer, String
+# from sqlalchemy import Column, Integer, String
+from sqlalchemy.orm import Mapped, mapped_column
 
-from sqlalchemy.orm import Mapped ,mapped_column, DeclarativeBase
+from db.data_baze import Base
 
-class Base(DeclarativeBase):
-    pass
 
-class Child(Base):
-    __tablename__ = "children"
+class Child_ORM(Base):
+    __tablename__ = "cildren"
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    name: Mapped[str] = mapped_column(String(50))
-    surname: Mapped[str] = mapped_column(String(50))
-    lastname: Mapped[str] = mapped_column(String(50))
-    age: Mapped[int] = mapped_column(Integer)
-    gender: Mapped[str] = mapped_column(String(50))
-    groupa: Mapped[str] = mapped_column(String(50))
+    name: Mapped[str] 
+    surname: Mapped[str] 
+    lastname: Mapped[str] 
+    birthday: Mapped[int]
+    groupa: Mapped[str]
+    added_at: Mapped[int]
+    updated_at: Mapped[int|None] 
