@@ -1,7 +1,7 @@
 import uvicorn
 
 from fastapi import FastAPI
-
+from fastapi.middleware.cors import CORSMiddleware
 
 
 from  db.requests import add_child, get_all_children, get_child_by_id, add_raven_test
@@ -11,6 +11,14 @@ from models import Child, RavenTest
 from psychological_keys import raven_test_key
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/")
 def root():
