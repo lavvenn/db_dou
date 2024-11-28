@@ -26,3 +26,4 @@ class RavenTest_ORM(Base):
     result_b: Mapped[int]
     result_sum: Mapped[int]
     child: Mapped[int] = mapped_column(ForeignKey("cildren.id"))
+    added_at: Mapped[int]

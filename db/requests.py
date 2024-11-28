@@ -41,11 +41,21 @@ def get_child_by_id(id) -> Child_ORM:
         return Child(name=child.name, surname=child.surname, lastname=child.lastname, birthday=child.birthday, groupa=child.groupa)
     
 def add_raven_test(result_dict: dict[str, int], child_id: int):
+    """
+    Add a new Raven test result to the database for a specific child.
+
+    Args:
+        result_dict (dict[str, int]): A dictionary containing the results of the Raven test,
+                                      with keys "a", "ab", "b", and "sum" representing different result categories.
+        child_id (int): The ID of the child to associate the test result with.
+
+    """
     with Session() as session:
         raven_test = RavenTest_ORM(result_a=result_dict["a"],
                                    result_ab=result_dict["ab"],
                                    result_b=result_dict["b"],
                                    result_sum=result_dict["sum"],
-                                   child=child_id)
+                                   child=child_id,
+                                   added_at=datetime.datetime.now())
         session.add(raven_test)
         session.commit()

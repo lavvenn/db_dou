@@ -59,6 +59,16 @@ def post_add_child(model: Child):
 
 @app.post("/add_raven_test")
 def post_add_reven_test(model: RavenTest):
+    """
+    Add a new Raven test result to the database.
+
+    Args:
+        model (RavenTest): RavenTest object with the new result's information.
+
+    Returns:
+        str: Success message.
+    """
+
     add_raven_test(raven_test_key(model), model.child_id)
     return "result was added"
 
