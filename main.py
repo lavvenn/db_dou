@@ -4,9 +4,11 @@ from fastapi import FastAPI
 
 
 
-from  db.requests import add_child, get_all_children, get_child_by_id
+from  db.requests import add_child, get_all_children, get_child_by_id, add_raven_test
 
-from models import Child
+from models import Child, RavenTest
+
+from psychological_keys import raven_test_key
 
 app = FastAPI()
 
@@ -39,6 +41,7 @@ def post_add_child(model: Child):
 
     Args:
         model (Child): Child object with the new child's information.
+        birthday - d/m/y
 
     Returns:
         str: Success message.
@@ -46,6 +49,11 @@ def post_add_child(model: Child):
     add_child(model)
     return "child was added"
 
+@app.post("/add_raven_test")
+def post_add_reven_test(model: RavenTest):
+    add_raven_test(raven_test_key(model), model.child_id)
+    return "result was added"
+
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
+    uvicorn.run("main:app", host="192.168.0.249", port=8000, reload=True)

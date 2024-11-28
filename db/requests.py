@@ -3,7 +3,7 @@ import datetime
 from sqlalchemy import select
 
 from db.data_baze import Session, engine, Base
-from db.models import Child_ORM
+from db.models import Child_ORM, RavenTest_ORM
 from models import Child
 
 def create_all_tables():
@@ -39,3 +39,13 @@ def get_child_by_id(id) -> Child_ORM:
     with Session() as session:
         child = session.get(Child_ORM, id)
         return Child(name=child.name, surname=child.surname, lastname=child.lastname, birthday=child.birthday, groupa=child.groupa)
+    
+def add_raven_test(result_dict: dict[str, int], child_id: int):
+    with Session() as session:
+        raven_test = RavenTest_ORM(result_a=result_dict["a"],
+                                   result_ab=result_dict["ab"],
+                                   result_b=result_dict["b"],
+                                   result_sum=result_dict["sum"],
+                                   child=child_id)
+        session.add(raven_test)
+        session.commit()
