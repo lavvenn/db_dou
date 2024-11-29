@@ -4,11 +4,11 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 
-from  db.requests import add_child, get_all_children, get_child_by_id, add_raven_test
+from  db.requests import add_child, get_all_children, get_child_by_id, add_raven_test, add_emotion_test
 
-from models import Child, RavenTest
+from models import Child, RavenTest, EmotionTest
 
-from psychological_keys import raven_test_key
+from psychological_keys import raven_test_key, emotions_test_key
 
 app = FastAPI()
 
@@ -39,7 +39,7 @@ def get_child(id: int):
 
 @app.get("/child_test")
 def child_test():
-    return Child(name="John", surname="Doe", lastname="Smith", age=12, gender="male", groupa="groupa1")
+    return Child(name="John", surname="Doe", lastname="Smith", birthday="01/01/2020", gender="male", groupa="groupa1")
 
 
 @app.post("/add_child")
@@ -72,6 +72,21 @@ def post_add_reven_test(model: RavenTest):
     add_raven_test(raven_test_key(model), model.child_id)
     return "result was added"
 
+@app.post("/add_emotional_test")
+def post_add_emotional_test(model: EmotionTest):
+    """
+    Add a new Emotional test result to the database.
+
+    Args:
+        model (EmotionTest): EmotionalTest object with the new result's information.
+
+    Returns:
+        str: Success message.
+    """
+
+    add_emotion_test(emotions_test_key(model), model.child_id)
+    return "result was added"
+
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="192.168.0.249", port=8000, reload=True)
+    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)

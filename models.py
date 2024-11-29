@@ -71,3 +71,13 @@ class RavenTest(BaseModel):
     b_11:int
     b_12:int
 
+
+class EmotionTest(BaseModel):
+    child_id:int
+
+    e_1:str
+    e_2:str
+    e_3:str
+    e_4:str
+    e_5:str
+    e_6:str

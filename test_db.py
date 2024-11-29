@@ -4,4 +4,4 @@ from models import Child
 
 create_all_tables()
 
-print(get_child_by_id(1))
+# print(get_child_by_id(1))

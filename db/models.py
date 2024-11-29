@@ -27,3 +27,12 @@ class RavenTest_ORM(Base):
     result_sum: Mapped[int]
     child: Mapped[int] = mapped_column(ForeignKey("cildren.id"))
     added_at: Mapped[int]
+
+class EmotionTest_ORM(Base):
+
+    __tablename__ = "emotion_test"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    result: Mapped[int]
+    child: Mapped[int] = mapped_column(ForeignKey("cildren.id"))
+    added_at: Mapped[int]

@@ -1,4 +1,4 @@
-from models import RavenTest
+from models import EmotionTest, RavenTest
 
 def raven_test_key(model: RavenTest):
     right_answers = {
@@ -101,47 +101,47 @@ def raven_test_key(model: RavenTest):
     return returned_dict
 
 
+def emotions_test_key(model: EmotionTest):
+    right_answers = {
+        "e_1": "а",
+        "e_2": "г",
+        "e_3": "д",
+        "e_4": "е",
+        "e_5": "б",
+        "e_6": "в"
+    }
+
+    input_answers = {
+        "e_1": model.e_1,
+        "e_2": model.e_2,
+        "e_3": model.e_3,
+        "e_4": model.e_4,
+        "e_5": model.e_5,
+        "e_6": model.e_6,
+    }
+
+    bin_dict = {}
+
+    for key, value in right_answers.items():
+        if input_answers[key] != value:
+            bin_dict[key] = 0
+        else:
+            bin_dict[key] = 1
+
+    returned_dict = {} # summ all
+    for key, value in bin_dict.items():
+        returned_dict["sum"] = returned_dict.get("sum", 0) + value
+    return returned_dict
+
 
 
 if __name__ == "__main__":
-    model = RavenTest(
-        child_id=1,
-        a_1=4,
-        a_2=2,
-        a_3=2,
-        a_4=2,
-        a_5=2,
-        a_6=5,
-        a_7=1,
-        a_8=3,
-        a_9=4,
-        a_10=2,
-        a_11=3,
-        a_12=6,
-        ab_1=4,
-        ab_2=5,
-        ab_3=1,
-        ab_4=6,
-        ab_5=2,
-        ab_6=5,
-        ab_7=4,
-        ab_8=3,
-        ab_9=2,
-        ab_10=3,
-        ab_11=1,
-        ab_12=6,
-        b_1=4,
-        b_2=1,
-        b_3=3,
-        b_4=6,
-        b_5=5,
-        b_6=4,
-        b_7=1,
-        b_8=3,
-        b_9=2,
-        b_10=5,
-        b_11=2,
-        b_12=6
-    )
-    print(raven_test_key(model))
-
+    model = EmotionTest(child_id=1,
+                        e_1="u",
+                        e_2="г",
+                        e_3="д",
+                        e_4="е",
+                        e_5="б",
+                        e_6="в")
+    print(emotions_test_key(model, 1))
+    

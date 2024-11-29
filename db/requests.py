@@ -3,7 +3,7 @@ import datetime
 from sqlalchemy import select
 
 from db.data_baze import Session, engine, Base
-from db.models import Child_ORM, RavenTest_ORM
+from db.models import Child_ORM, EmotionTest_ORM, RavenTest_ORM
 from models import Child
 
 def create_all_tables():
@@ -46,7 +46,7 @@ def add_raven_test(result_dict: dict[str, int], child_id: int):
 
     Args:
         result_dict (dict[str, int]): A dictionary containing the results of the Raven test,
-                                      with keys "a", "ab", "b", and "sum" representing different result categories.
+                                      with keys "a", "ab", "b" representing different result categories.
         child_id (int): The ID of the child to associate the test result with.
 
     """
@@ -58,4 +58,21 @@ def add_raven_test(result_dict: dict[str, int], child_id: int):
                                    child=child_id,
                                    added_at=datetime.datetime.now())
         session.add(raven_test)
+        session.commit()
+
+def add_emotion_test(result_dict: dict[str, int], child_id: int):
+    """
+    Add a new emotion test result to the database for a specific child.
+
+    Args:
+        result_dict (dict[str, int]): A dictionary containing the results of the emotion test,
+                                      with keys "a", "ab", "b" representing different result categories.
+        child_id (int): The ID of the child to associate the test result with.
+
+    """
+    with Session() as session:
+        emotion_test = EmotionTest_ORM(result=result_dict["sum"],
+                                       child=child_id,
+                                       added_at=datetime.datetime.now())
+        session.add(emotion_test)
         session.commit()
