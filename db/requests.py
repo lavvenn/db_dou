@@ -30,17 +30,24 @@ def all_children():
         return children
     
 def child_by_id(id) -> Child_ORM:
-    with Session() as session:
-        child = session.get(Child_ORM, id)
-        return Child(name=child.name, surname=child.surname, lastname=child.lastname, birthday=child.birthday, groupa=child.groupa)
-    
+    try:
+        with Session() as session:
+            child = session.get(Child_ORM, id)
+            return Child(name=child.name, surname=child.surname, lastname=child.lastname, birthday=child.birthday, groupa=child.groupa)
+    except:
+        return "child not found"
+        
+            
 def remove_child_by_id(id):
-    with Session() as session:
-        child = session.get(Child_ORM, id)
-        session.delete(child)
-        session.commit()
-    
-    return "child {id} was deleted"
+    try:
+        with Session() as session:
+            child = session.get(Child_ORM, id)
+            session.delete(child)
+            session.commit()
+        
+        return "child {id} was deleted"
+    except:
+        return "child not found"
     
 def add_raven_test(result_dict: dict[str, int], child_id: int):
     """
