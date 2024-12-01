@@ -10,12 +10,6 @@ def create_all_tables():
     Base.metadata.create_all(engine)
 
 
-def get_all_children():
-    with Session() as session:
-        children = session.execute(select(Child_ORM)).scalars().all()
-        return [Child(name=row.name, surname=row.surname, lastname=row.lastname, birthday=row.birthday, groupa=row.groupa) for row in children]
-
-
 def add_child(model: Child):
     with Session() as session:
         child = Child_ORM(name=model.name,
@@ -30,15 +24,23 @@ def add_child(model: Child):
     return f"child {model.name}was added"
 
 
-def get_all_children():
+def all_children():
     with Session() as session:
         children = session.execute(select(Child_ORM)).scalars().all()
         return children
     
-def get_child_by_id(id) -> Child_ORM:
+def child_by_id(id) -> Child_ORM:
     with Session() as session:
         child = session.get(Child_ORM, id)
         return Child(name=child.name, surname=child.surname, lastname=child.lastname, birthday=child.birthday, groupa=child.groupa)
+    
+def remove_child_by_id(id):
+    with Session() as session:
+        child = session.get(Child_ORM, id)
+        session.delete(child)
+        session.commit()
+    
+    return "child {id} was deleted"
     
 def add_raven_test(result_dict: dict[str, int], child_id: int):
     """
@@ -60,6 +62,8 @@ def add_raven_test(result_dict: dict[str, int], child_id: int):
         session.add(raven_test)
         session.commit()
 
+    return "result of raven test was added"
+
 def add_emotion_test(result_dict: dict[str, int], child_id: int):
     """
     Add a new emotion test result to the database for a specific child.
@@ -76,3 +80,5 @@ def add_emotion_test(result_dict: dict[str, int], child_id: int):
                                        added_at=datetime.datetime.now())
         session.add(emotion_test)
         session.commit()
+
+    return "result of emotion test was added"

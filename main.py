@@ -4,7 +4,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 
-from  db.requests import add_child, get_all_children, get_child_by_id, add_raven_test, add_emotion_test
+from  db.requests import add_child, all_children, child_by_id, add_raven_test, add_emotion_test, remove_child_by_id
 
 from models import Child, RavenTest, EmotionTest
 
@@ -20,11 +20,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/")
-def root():
-    return get_all_children()
+@app.get("/", tags=["children🧒"])
+def get_all_children():
+    return all_children()
 
-@app.get("/child/{id}")
+@app.get("/children/{id}", tags=["children🧒"])
 def get_child(id: int):
     """
     Get child by id.
@@ -35,14 +35,10 @@ def get_child(id: int):
     Returns:
         Child: Child object.
     """
-    return get_child_by_id(id)
-
-@app.get("/child_test")
-def child_test():
-    return Child(name="John", surname="Doe", lastname="Smith", birthday="01/01/2020", gender="male", groupa="groupa1")
+    return child_by_id(id)
 
 
-@app.post("/add_child")
+@app.post("/children/add", tags=["children🧒"])
 def post_add_child(model: Child):
     """
     Add a new child to the database.
@@ -50,14 +46,20 @@ def post_add_child(model: Child):
     Args:
         model (Child): Child object with the new child's information.
         birthday - d/m/y
-
+    
     Returns:
         str: Success message.
     """
     add_child(model)
     return "child was added"
 
-@app.post("/add_raven_test")
+@app.delete("/children/delete/{id}", tags=["children🧒"])
+def delete_child(id: int):
+    remove_child_by_id(id)
+    return "child was deleted"
+
+
+@app.post("/tests/raven/add", tags=["tests📝"])
 def post_add_reven_test(model: RavenTest):
     """
     Add a new Raven test result to the database.
@@ -72,7 +74,7 @@ def post_add_reven_test(model: RavenTest):
     add_raven_test(raven_test_key(model), model.child_id)
     return "result was added"
 
-@app.post("/add_emotional_test")
+@app.post("/tests/emotions/add", tags=["tests📝"])
 def post_add_emotional_test(model: EmotionTest):
     """
     Add a new Emotional test result to the database.
