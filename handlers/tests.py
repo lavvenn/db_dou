@@ -9,7 +9,7 @@ router = APIRouter(
     tags=["tests📝"]
 )
 
-@router.post("/raven/add", tags=["tests📝"])
+@router.post("/raven/add")
 def post_add_reven_test(model: RavenTest):
     """
     Add a new Raven test result to the database.
@@ -24,7 +24,7 @@ def post_add_reven_test(model: RavenTest):
     add_raven_test(raven_test_key(model), model.child_id)
     return "result was added"
 
-@router.post("/emotions/add", tags=["tests📝"])
+@router.post("/emotions/add")
 def post_add_emotional_test(model: EmotionTest):
     """
     Add a new Emotional test result to the database.
