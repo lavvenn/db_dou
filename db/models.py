@@ -36,3 +36,13 @@ class EmotionTest_ORM(Base):
     result: Mapped[int]
     child: Mapped[int] = mapped_column(ForeignKey("cildren.id"))
     added_at: Mapped[int]
+
+
+class RelationTest_ORM(Base):
+
+    __tablename__ = "relation_test"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    result: Mapped[int]
+    child: Mapped[int] = mapped_column(ForeignKey("cildren.id"))
+    added_at: Mapped[int]

@@ -1,4 +1,4 @@
-from models import EmotionTest, RavenTest
+from models import EmotionTest, RavenTest, RelationTest
 
 def raven_test_key(model: RavenTest):
     right_answers = {
@@ -118,6 +118,64 @@ def emotions_test_key(model: EmotionTest):
         "e_4": model.e_4,
         "e_5": model.e_5,
         "e_6": model.e_6,
+    }
+
+    bin_dict = {}
+
+    for key, value in right_answers.items():
+        if input_answers[key] != value:
+            bin_dict[key] = 0
+        else:
+            bin_dict[key] = 1
+
+    returned_dict = {} # summ all
+    for key, value in bin_dict.items():
+        returned_dict["sum"] = returned_dict.get("sum", 0) + value
+    return returned_dict
+
+def relation_test_key(model: RelationTest) -> dict[str, int]:
+    right_answers = {
+        "r_1": 2,
+        "r_2": 2,
+        "r_3": 5,
+        "r_4": 5,
+        "r_6": 4,
+        "r_5": 4,
+        "r_7": 2,
+        "r_8": 3,
+        "r_9": 2,
+        "r_10": 4,
+        "r_11": 4,
+        "r_13": 2,
+        "r_12": 5,
+        "r_14": 1,
+        "r_15": 2,
+        "r_16": 3,
+        "r_17": 3,
+        "r_18": 2,
+        "r_19": 4,
+    }
+
+    input_answers = {
+        "r_1": model.r_1,
+        "r_2": model.r_2,
+        "r_3": model.r_3,
+        "r_4": model.r_4,
+        "r_5": model.r_5,
+        "r_6": model.r_6,
+        "r_7": model.r_7,
+        "r_8": model.r_8,
+        "r_9": model.r_9,
+        "r_10": model.r_10,
+        "r_11": model.r_11,
+        "r_12": model.r_12,
+        "r_13": model.r_13,
+        "r_14": model.r_14,
+        "r_15": model.r_15,
+        "r_16": model.r_16,
+        "r_17": model.r_17,
+        "r_18": model.r_18,
+        "r_19": model.r_19,
     }
 
     bin_dict = {}

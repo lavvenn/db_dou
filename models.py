@@ -81,3 +81,29 @@ class EmotionTest(BaseModel):
     e_4:str
     e_5:str
     e_6:str
+
+class RelationTest(BaseModel):
+    child_id:int
+
+    r_1:int
+    r_2:int
+    r_3:int 
+    r_4:int
+    r_5:int
+    r_6:int
+    r_7:int
+    r_8:int
+    r_9:int
+    r_10:int
+    r_11:int
+    r_12:int
+    r_13:int
+    r_14:int
+    r_15:int
+    r_16:int
+    r_17:int
+    r_18:int
+    r_19:int
+
+
+
